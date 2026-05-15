@@ -1,5 +1,5 @@
 const { appName, version } = require('./config');
-const { InvalidMessageError } = require('./errors');
+const { InvalidMessageError, AppError } = require('./errors');
 const LEVELS = { trace: 0, debug: 1, info: 2, warn: 3, error: 4 };
 
 
@@ -14,34 +14,64 @@ class Logger {
      * @param {string} minLevel Minimum log level to output 
      * LEVELS = { trace: 0, debug: 1, info: 2, warn: 3, error: 4 };
      */
-    constructor(minLevel) {
+    constructor(minLevel = 'info') {
+        if (!LEVELS.hasOwnProperty(minLevel)) throw new AppError(`Invalid log level: ${minLevel}`);
         this.#minLevel = LEVELS[minLevel];
     }
 
     #log(message, level, requestId) {
-        if (LEVELS[level] < this.#minLevel) return;
-        const timestamp = new Date().toISOString();
-        console.log(`[${timestamp}] ${appName} ${version} [${level}] ${requestId || ''} ${message}`)
-    }
-
-    info(message, requestId) {
         if (!message) throw new InvalidMessageError('Message is required for logging.');
+        if (LEVELS[level] < this.#minLevel) return;
+
+        const reqIdPart = requestId ? `[REQ_ID=${requestId}]` : '';
+        const timestamp = new Date().toISOString();
+        const output = `[${timestamp}] ${appName} ${version} [${level}]${reqIdPart} ${message}`;
+
+        level === 'error' ? console.error(output) : console.log(output);
+    }
+    /**
+     * 
+     * @param {string} message 
+     * @param {string} [requestId]
+     */
+    info(message, requestId) {
+
         this.#log(message, 'info', requestId)
     }
+    /**
+    * 
+    * @param {string} message 
+    * @param {string} [requestId]
+    */
     warn(message, requestId) {
-        if (!message) throw new InvalidMessageError('Message is required for logging.');
+
         this.#log(message, 'warn', requestId)
     }
+    /**
+    * 
+    * @param {string} message 
+    * @param {string} [requestId]
+    */
     error(message, requestId) {
-        if (!message) throw new InvalidMessageError('Message is required for logging.');
+
         this.#log(message, 'error', requestId)
     }
+    /**
+    * 
+    * @param {string} message 
+    * @param {string} [requestId]
+    */
     trace(message, requestId) {
-        if (!message) throw new InvalidMessageError('Message is required for logging.');
+
         this.#log(message, 'trace', requestId)
     }
+    /**
+    * 
+    * @param {string} message 
+    * @param {string} [requestId]
+    */
     debug(message, requestId) {
-        if (!message) throw new InvalidMessageError('Message is required for logging.');
+
         this.#log(message, 'debug', requestId)
     }
 
