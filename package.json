@@ -16,5 +16,8 @@
     "url": "https://github.com/stoff7/evercode_practice/issues"
   },
   "homepage": "https://github.com/stoff7/evercode_practice#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
 }
