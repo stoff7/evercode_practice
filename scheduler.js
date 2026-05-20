@@ -1,13 +1,13 @@
-const { InvalidIntervalError } = require('./errors');
-const Logger = require('./logger');
-require('dotenv').config();
+import Logger from './logger.js';
+import { InvalidIntervalError } from './errors.js';
+import 'dotenv/config';
 
 const logger = new Logger(process.env.LOG_LEVEL || 'info');
 
 logger.info('Scheduler module loaded.');
 
-const schedule = (name, interval, task) => {
-    if (interval < 1000) throw new InvalidIntervalError('Interval must be greater than 1000 milliseconds.');
+export const schedule = (name, interval, task) => {
+    if (interval < 1000) { logger.error('Interval must be greater than 1000 milliseconds.'); throw new InvalidIntervalError('Interval must be greater than 1000 milliseconds.') };
     logger.info(`Scheduling task "${name}" to run every ${interval} milliseconds.`);
     setInterval(() => {
         logger.debug('Executing scheduled task...', `TASK=${name}`);
@@ -21,5 +21,3 @@ const runningTask = () => {
 }
 
 schedule('Running Task', 10_000, runningTask);
-
-module.exports = { schedule };

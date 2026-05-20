@@ -1,13 +1,12 @@
-const { appName, version } = require('./config');
-const { InvalidMessageError, AppError } = require('./errors');
+import { AppError, InvalidMessageError } from './errors.js';
+import config from './config.js';
+
 const LEVELS = { trace: 0, debug: 1, info: 2, warn: 3, error: 4 };
-
-
 /**
  * Simple logger class
  * @description Logs messages with different levels and timestamps
  */
-class Logger {
+export class Logger {
     #minLevel;
     /**
      * @constructor
@@ -25,9 +24,17 @@ class Logger {
 
         const reqIdPart = requestId ? `[REQ_ID=${requestId}]` : '';
         const timestamp = new Date().toISOString();
-        const output = `[${timestamp}] ${appName} ${version} [${level}]${reqIdPart} ${message}`;
+        const output = `[${timestamp}] ${config.appName} ${config.version} [${level}]${reqIdPart} ${message}`;
 
-        level === 'error' ? console.error(output) : console.log(output);
+        if (level === 'error') {
+            console.error(output);
+        } else if (level === 'warn') {
+            console.warn(output);
+        } else {
+            console.log(output);
+        }
+
+        // level === 'error' ? console.error(output) : level === 'warn' ? console.warn(output) : console.log(output);
     }
     /**
      * 
@@ -77,4 +84,4 @@ class Logger {
 
 }
 
-module.exports = Logger;
+export default Logger;
