@@ -1,5 +1,5 @@
 import Logger from './logger.js';
-import { InvalidIntervalError } from './errors.js';
+import { InvalidIntervalError } from '../app/errors.js';
 import 'dotenv/config';
 
 const logger = new Logger(process.env.LOG_LEVEL || 'info');
@@ -16,8 +16,9 @@ export const schedule = (name, interval, task) => {
     }, interval);
 };
 
-const runningTask = () => {
-    logger.info('Running...', 'RUNNING_TASK ID=12345');
-}
+// нужен был для тестирования, сейчас не нужен
+// const runningTask = () => {
+//     logger.info('Running...', 'RUNNING_TASK ID=12345');
+// }
 
-schedule('Running Task', 10_000, runningTask);
+// schedule('Running Task', 10_000, runningTask);
