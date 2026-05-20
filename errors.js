@@ -1,4 +1,4 @@
-class AppError extends Error {
+export class AppError extends Error {
     statusCode;
     code;
     timestamp;
@@ -14,15 +14,14 @@ class AppError extends Error {
 }
 
 
-class InvalidMessageError extends AppError {
+export class InvalidMessageError extends AppError {
     constructor(message) {
         super(message, 'INVALID_MESSAGE');
     }
 }
 
-class InvalidIntervalError extends AppError {
+export class InvalidIntervalError extends AppError {
     constructor(message) {
         super(message, 'INVALID_INTERVAL');
     }
 }
-module.exports = { AppError, InvalidMessageError, InvalidIntervalError };
