@@ -1,5 +1,5 @@
-import { AppError, InvalidMessageError } from './errors.js';
-import config from './config.js';
+import { AppError, InvalidMessageError } from '../app/errors.js';
+import config from '../app/config.js';
 
 const LEVELS = { trace: 0, debug: 1, info: 2, warn: 3, error: 4 };
 /**
