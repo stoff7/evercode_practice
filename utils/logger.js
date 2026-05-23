@@ -1,5 +1,6 @@
 import { AppError, InvalidMessageError } from '../app/errors.js';
 import config from '../app/config.js';
+import 'dotenv/config';
 
 const LEVELS = { trace: 0, debug: 1, info: 2, warn: 3, error: 4 };
 /**
@@ -84,4 +85,4 @@ export class Logger {
 
 }
 
-export default Logger;
+export default new Logger(process.env.LOG_LEVEL || 'info');

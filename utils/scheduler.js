@@ -1,8 +1,6 @@
-import Logger from './logger.js';
+import logger from './logger.js';
 import { InvalidIntervalError } from '../app/errors.js';
 import 'dotenv/config';
-
-const logger = new Logger(process.env.LOG_LEVEL || 'info');
 
 logger.info('Scheduler module loaded.');
 
