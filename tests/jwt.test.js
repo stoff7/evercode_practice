@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import authMiddleware from '../middlewares/auth.middleware';
+import authMiddleware from '../middlewares/auth.middleware.js';
 import { jest } from '@jest/globals';
 
 test('authMiddleware should decode JWT and call next', () => {
