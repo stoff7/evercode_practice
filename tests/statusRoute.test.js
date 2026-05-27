@@ -1,4 +1,4 @@
-test('GET /status should return 200 and status message (NOTE: SERVER MUST BE RUNNING)', async () => {
+test('GET /status should return 200 and status message', async () => {
     const response = await fetch('http://localhost:3000/status');
     expect(response.status).toBe(200);
     const text = await response.text();

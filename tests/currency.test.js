@@ -1,4 +1,4 @@
-test('Create currency (NOTE: SERVER MUST BE RUNNING)', async () => {
+test('Create currency', async () => {
     const response = await fetch('http://localhost:3000/currency', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -11,7 +11,7 @@ test('Create currency (NOTE: SERVER MUST BE RUNNING)', async () => {
     expect(data.ticker).toBe('TST');
 });
 
-test('Get currency by ID (NOTE: SERVER MUST BE RUNNING)', async () => {
+test('Get currency by ID', async () => {
     const createResponse = await fetch('http://localhost:3000/currency', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -28,7 +28,7 @@ test('Get currency by ID (NOTE: SERVER MUST BE RUNNING)', async () => {
     expect(data.ticker).toBe('TST2');
 });
 
-test('Update currency (NOTE: SERVER MUST BE RUNNING)', async () => {
+test('Update currency', async () => {
     const createResponse = await fetch('http://localhost:3000/currency', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -47,7 +47,7 @@ test('Update currency (NOTE: SERVER MUST BE RUNNING)', async () => {
     expect(data.ticker).toBe('TST3');
 });
 
-test('Delete currency (NOTE: SERVER MUST BE RUNNING)', async () => {
+test('Delete currency', async () => {
     const createResponse = await fetch('http://localhost:3000/currency', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -64,7 +64,7 @@ test('Delete currency (NOTE: SERVER MUST BE RUNNING)', async () => {
     expect(getResponse.status).toBe(404);
 });
 
-test('Get all currencies (NOTE: SERVER MUST BE RUNNING)', async () => {
+test('Get all currencies', async () => {
     const response = await fetch('http://localhost:3000/currency', {
         method: 'GET',
     });
