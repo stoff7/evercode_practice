@@ -4,9 +4,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "node index.js & sleep 2 && node --experimental-vm-modules node_modules/jest/bin/jest.js; kill %1",
+    "test": "node index.js & sleep 2 && node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand; kill %1",
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "db:init": "node db/init.js"
   },
   "jest": {
     "transform": {}
@@ -24,6 +25,7 @@
   "homepage": "https://github.com/stoff7/evercode_practice#readme",
   "description": "",
   "dependencies": {
+    "better-sqlite3": "^12.10.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
