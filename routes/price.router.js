@@ -1,8 +1,9 @@
 import { Router } from "express";
-import PriceController from "../controllers/price.controller.js";
-const router = Router();
+
+export function createPriceRouter(PriceController) {
+    const router = Router();
 
 
-router.post('/', PriceController.handle);
-
-export default router;
+    router.post('/', (req, res) => PriceController.handle(req, res));
+    return router;
+}

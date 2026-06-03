@@ -1,17 +1,18 @@
 import { Router } from "express";
 import logger from "../utils/logger.js";
-import currencyRouter from "./currency.router.js";
-import priceRouter from "./price.router.js";
+import { createCurrencyRouter } from "./currency.router.js";
+import { createPriceRouter } from "./price.router.js";
 
-const router = Router();
+export function createRouter(currencyController, priceController) {
+    const router = Router();
 
-router.use('/currency', currencyRouter);
-router.use('/price', priceRouter);
+    router.use('/currency', createCurrencyRouter(currencyController));
+    router.use('/price', createPriceRouter(priceController));
 
-router.get('/status', (req, res) => {
-    logger.info('Status endpoint was called.');
-    res.status(200);
-    res.send("OK");
-});
+    router.get('/status', (req, res) => {
+        logger.info('Status endpoint was called.');
+        res.status(200).send("OK");
+    });
 
-export default router;
+    return router;
+}
