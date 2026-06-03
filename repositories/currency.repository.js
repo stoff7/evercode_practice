@@ -20,29 +20,28 @@ export class CurrencyRepository {
         return currencies;
     };
     updateCurrency(id, currency) {
-        const oldCurrency = this.findCurrencyById(id);
-        const updatedCurrency = {
-            id: id,
-            name: currency.name ?? oldCurrency.name,
-            ticker: currency.ticker ?? oldCurrency.ticker
-        }
-        this.db.prepare('UPDATE currencies SET name = ?, ticker = ? WHERE id = ?').run(updatedCurrency.name, updatedCurrency.ticker, id);
-        return this.findCurrencyById(id);
-    };
+        const update = this.db.prepare('UPDATE currencies SET name = ?, ticker = ? WHERE id = ?');
+
+        const run = this.db.transaction((id, data) => {
+            const oldCurrency = this.findCurrencyById(id);
+            const updatedCurrency = {
+                name: data.name ?? oldCurrency.name,
+                ticker: data.ticker ?? oldCurrency.ticker
+            };
+            update.run(updatedCurrency.name, updatedCurrency.ticker, id);
+            return this.findCurrencyById(id);
+        });
+
+        return run(id, currency);
+    }
+
     deleteCurrency(id) {
-        const deletedcurrency = this.findCurrencyById(id);
-        console.log(this.db.prepare('DELETE FROM currencies WHERE id = ?').run(id));
-        return deletedcurrency;
-    };
+        const run = this.db.transaction((id) => {
+            const currency = this.findCurrencyById(id);
+            this.db.prepare('DELETE FROM currencies WHERE id = ?').run(id);
+            return currency;
+        });
+        return run(id);
+    }
+
 };
-
-// const currencyRepository = new CurrencyRepository();
-// const currency = currencyRepository.createCurrency({ name: 'test', ticker: 'tst' });
-// console.log(currencyRepository.findCurrencyByTicker('tst'));
-// console.log(currencyRepository.findCurrencyById(currency.id));
-// console.log(currencyRepository.findAllCurrencies());
-// console.log(currencyRepository.updateCurrency(currency.id, { name: 'updated test', ticker: 'utst' }));
-// console.log(currencyRepository.findAllCurrencies());
-// console.log(currencyRepository.deleteCurrency(currency.id));
-// console.log(currencyRepository.findAllCurrencies());
-
