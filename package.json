@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node index.js & sleep 2 && node --experimental-vm-modules node_modules/jest/bin/jest.js; kill %1",
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "db:init": "node --experimental-sqlite db/init.js"
   },
   "jest": {
     "transform": {}
