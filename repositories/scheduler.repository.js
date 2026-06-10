@@ -23,4 +23,8 @@ export class SchedulerRepository {
     findAll() {
         return this.db.prepare('SELECT * FROM scheduler_logs ORDER BY started_at DESC').all();
     }
+
+    findRunning() {
+        return this.db.prepare("SELECT * FROM scheduler_logs WHERE status = 'running'").all();
+    }
 }

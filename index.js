@@ -38,8 +38,21 @@ app.use(express.json());
 app.use('/', router);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
-app.listen(process.env.PORT || 3000, () => {
+const server = app.listen(process.env.PORT || 3000, () => {
     logger.info(`Server started on port ${process.env.PORT || 3000}`);
 });
+
+function shutdown() {
+    logger.info('Shutting down gracefully...');
+
+    schedulerRepository.findRunning()
+        .forEach(log => schedulerRepository.updateLog(log.id, 'error', 'Process terminated'));
+
+    db.close();
+    server.close(() => process.exit(0));
+}
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
 
 
