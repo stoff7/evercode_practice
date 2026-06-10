@@ -9,15 +9,25 @@ import { PriceService } from './services/price.service.js';
 import { CurrencyController } from './controllers/currency.controller.js';
 import { PriceController } from './controllers/price.controller.js';
 import { CurrencyRepository } from './repositories/currency.repository.js';
+import { PriceRepository } from './repositories/price.repository.js';
+import { SchedulerRepository } from './repositories/scheduler.repository.js';
+import { SyncService } from './services/sync.service.js';
+import { schedule } from './utils/scheduler.js';
 import db from './db/database.js';
 import './db/init.js';
 
 
 const currencyRepository = new CurrencyRepository(db);
+const priceRepository = new PriceRepository(db);
+const schedulerRepository = new SchedulerRepository(db);
+
 const currencyService = new CurrencyService(currencyRepository);
-const priceService = new PriceService(currencyService);
+const syncService = new SyncService(currencyRepository, priceRepository, schedulerRepository);
+const priceService = new PriceService(priceRepository);
 const currencyController = new CurrencyController(currencyService);
 const priceController = new PriceController(priceService);
+
+schedule('price-sync', 60_000, () => syncService.syncPrices());
 
 const router = createRouter(currencyController, priceController);
 
