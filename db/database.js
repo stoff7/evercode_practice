@@ -8,6 +8,7 @@ const dbPath = path.resolve(path.dirname(__filename), '../database.db');
 let db;
 try {
     db = new Database(dbPath);
+    db.pragma('foreign_keys=ON')
     db.pragma('journal_mode = WAL');
     logger.info('Connected to the database successfully.');
 }
